@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8.5",
+  "package": "xyz.bobkinn.debugsticksurvival.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "server": [
+    "DebugStickMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
