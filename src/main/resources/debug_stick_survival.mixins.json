@@ -4,7 +4,8 @@
   "package": "xyz.bobkinn.debugsticksurvival.mixin",
   "compatibilityLevel": "JAVA_8",
   "server": [
-    "DebugStickMixin"
+    "DebugStickMixin",
+    "MixinCommandAdvancement"
   ],
   "injectors": {
     "defaultRequire": 1

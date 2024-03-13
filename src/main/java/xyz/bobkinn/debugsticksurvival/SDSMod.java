@@ -15,6 +15,7 @@ public class SDSMod {
                   final @NotNull Platform platform) {
         var file = platform.getConfigs().resolve("SDS.json").toFile();
         Config.load(file);
+        Config.configFile = file;
         LOGGER.info("SDS initialized successfully!");
     }
 }

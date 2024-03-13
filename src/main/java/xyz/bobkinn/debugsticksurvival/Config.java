@@ -21,11 +21,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"unchecked", "unused"})
 public class Config {
     public static String MESSAGE_nomodify;
     public static String MESSAGE_select;
     public static String MESSAGE_change;
+
+    public static File configFile;
 
     public static boolean whitelist;
     private static HashMap<String, Boolean> properties = new HashMap<>();
@@ -76,6 +78,11 @@ public class Config {
         }
     }
 
+    public static void reload(File configFile){
+        factorySettings(configFile);
+        load(configFile);
+    }
+
     private static void factorySettings(File configFile) {
         whitelist = false;
         MESSAGE_nomodify = "This block is not modifiable.";
@@ -86,7 +93,7 @@ public class Config {
         tags_forbidden = new HashMap<>();
         blocks_allowed = new HashMap<>();
         blocks_forbidden = new HashMap<>();
-        save(configFile);
+//        save(configFile);
     }
 
     public static void save(File configFile) {

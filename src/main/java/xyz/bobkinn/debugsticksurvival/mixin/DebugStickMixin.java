@@ -24,7 +24,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.bobkinn.debugsticksurvival.Config;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 @Mixin(value = ItemDebugStick.class, remap = false)
@@ -69,7 +68,7 @@ public class DebugStickMixin {
 
         IBlockState<?> property = stateManager.a(propertyName);
 
-        if (player.bO()) {
+        if (!update) {
             // select next property
             property = debugStickSurvival$getNextProperty(collection, property, block);
             // save chosen property in the NBT data of Debug Stick
