@@ -218,21 +218,21 @@ public class Config {
 
     public static boolean isBlockAllowed(Block block) {
         // 1) check if block has been mentioned in BLOCKS part
-        String blockName = BuiltInRegistries.f.b(block).toString();
+        String blockName = BuiltInRegistries.BLOCK.getKey(block).toString();
 
         if (blocks_allowed.containsKey(blockName)) return true;
         if (blocks_forbidden.containsKey(blockName)) {
             return !blocks_forbidden.get(blockName).isEmpty();
         }
         // 2) if block is not stated in config, check tags
-        Stream<TagKey<Block>> tagStream = block.r().c();
+        Stream<TagKey<Block>> tagStream = block.builtInRegistryHolder().tags();
         List<TagKey<Block>> tagArray = tagStream.toList();
         for (TagKey<Block> tag : tagArray) {
-            String tagName = tag.b().toString();
+            String tagName = tag.location().toString();
             if (tags_allowed.containsKey(tagName)) return true;
         }
         for (TagKey<Block> tag : tagArray) {
-            String tagName = tag.b().toString();
+            String tagName = tag.location().toString();
             if (tags_forbidden.containsKey(tagName)) {
                 return !tags_forbidden.get(tagName).isEmpty();
             }
@@ -243,7 +243,7 @@ public class Config {
 
     public static boolean isPropertyAllowed(String propertyName, @Nullable Block block) {
         if (block != null) {
-            String blockName = BuiltInRegistries.f.b(block).toString();
+            String blockName = BuiltInRegistries.BLOCK.getKey(block).toString();
             // 1) Check for exactly this block
             if (blocks_forbidden.containsKey(blockName)) {
                 List<String> forbidden_props = blocks_forbidden.get(blockName);
@@ -259,17 +259,17 @@ public class Config {
             }
             // 2) Either block is not stated in config or
             // allowed by itself, but does not speak about property. Check its tags
-            Stream<TagKey<Block>> tagStream = block.r().c();
+            Stream<TagKey<Block>> tagStream = block.builtInRegistryHolder().tags();
             List<TagKey<Block>> tagArray = tagStream.toList();
             for (TagKey<Block> tag : tagArray) {
-                String tagName = tag.b().toString();
+                String tagName = tag.location().toString();
                 if (tags_forbidden.containsKey(tagName)) {
                     List<String> forbidden_props = tags_forbidden.get(tagName);
                     if (forbidden_props.contains(propertyName)) return false;
                 }
             }
             for (TagKey<Block> tag : tagArray) {
-                String tagName = tag.b().toString();
+                String tagName = tag.location().toString();
                 if (tags_allowed.containsKey(tagName)) {
                     List<String> allowed_props = tags_allowed.get(tagName);
                     if (allowed_props.contains(propertyName)) return true;

@@ -36,3 +36,5 @@ build/
 
 ### Mac OS ###
 .DS_Store
+/.paper-nms/classes.json
+/.paper-nms/mappings_1.19.4.tiny
