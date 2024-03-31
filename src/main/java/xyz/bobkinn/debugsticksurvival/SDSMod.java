@@ -1,19 +1,23 @@
 package xyz.bobkinn.debugsticksurvival;
 
-import com.google.inject.Inject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
-import space.vectrix.ignite.api.Platform;
+import space.vectrix.ignite.Ignite;
+import space.vectrix.ignite.mod.ModContainer;
 
 public class SDSMod {
     public static Logger LOGGER = LogManager.getLogger("SDS");
 
-    @Inject
-    @SuppressWarnings("unused")
-    public SDSMod(final Logger logger,
-                  final @NotNull Platform platform) {
-        var file = platform.getConfigs().resolve("SDS.json").toFile();
+    public ModContainer getMod(){
+        return Ignite.mods().container("survival_debug_stick").orElseThrow();
+    }
+
+    public SDSMod() {
+        var file = getMod().resource().path()
+                .getParent() // /mods
+                .getParent() // /
+                .resolve("config") // /config
+                .resolve("SDS.json").toFile();
         Config.load(file);
         Config.configFile = file;
         LOGGER.info("SDS initialized successfully!");

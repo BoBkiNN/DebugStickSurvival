@@ -1,7 +1,6 @@
 {
   "id": "survival_debug_stick",
   "version": "${project.version}",
-  "entry": "xyz.bobkinn.debugsticksurvival.SDSMod",
   "mixins": [
     "debug_stick_survival.mixins.json"
   ]
