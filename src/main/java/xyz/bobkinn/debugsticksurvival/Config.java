@@ -73,7 +73,7 @@ public class Config {
             populate(blocks_forbidden, blocks_forbidden_js);
 
         } catch (IOException | ParseException | ClassCastException e) {
-            SDSMod.LOGGER.warn("Error while loading config: " + e);
+            SDSMod.LOGGER.warn("Error while loading config: {}", e.getMessage());
             factorySettings(configFile);
         }
     }

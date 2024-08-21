@@ -28,7 +28,7 @@ public class MixinCommandAdvancement {
     private static int debugStickSurvival$sdsReload(CommandContext<CommandSourceStack> ctx){
         if (Config.configFile != null){
             Config.reload(Config.configFile);
-            ctx.getSource().sendSuccess(Component.literal("Reloaded"), false);
+            ctx.getSource().sendSuccess(() -> Component.literal("Reloaded"), false);
             return 1;
         }
         return 0;

@@ -2,12 +2,13 @@ package xyz.bobkinn.debugsticksurvival.mixin;
 
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DebugStickItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.DebugStickState;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -57,22 +58,15 @@ public class DebugStickMixin {
             return;
         }
 
-        // https://minecraft.fandom.com/wiki/Debug_Stick#Item_data
-        // to remember the data of which property for which block is chosen,
-        // Minecraft Devs decided to use NBT data for Debug Stick.
-        // Who am I to disagree?
-        CompoundTag nbtCompound = stack.getOrCreateTagElement("DebugProperty");
-
-        String blockName = BuiltInRegistries.BLOCK.getKey(block).toString();
-        String propertyName = nbtCompound.getString(blockName);
-
-        Property<?> property = stateManager.getProperty(propertyName);
+        var debugStickState = stack.getComponents().getOrDefault(DataComponents.DEBUG_STICK_STATE, DebugStickState.EMPTY);
+        var property = debugStickState.properties().get(Holder.direct(block));
 
         if (!update) {
             // select next property
             property = debugStickSurvival$getNextProperty(collection, property, block);
             // save chosen property in the NBT data of Debug Stick
-            nbtCompound.putString(blockName, property.getName());
+            var newDataComp = debugStickState.withProperty(Holder.direct(block), property);
+            stack.set(DataComponents.DEBUG_STICK_STATE, newDataComp);
 
             if (!debugStickSurvival$isPropertyModifiable(property, block)){
                 message(player, Component.literal(Config.MESSAGE_nomodify));
